@@ -24,32 +24,51 @@
     <button class="arrow next">⇨</button>
 </div>
 <script>
-    const width = 130,
+    const width = 130, // ширина одного элемента
         count = 3, //количество элементов на странице
         elem = 1, //количество элементов, на которые происходит прокрутка
         prev = document.querySelector('.prev'),
         next = document.querySelector('.next'),
         images = document.querySelector('.images'),
         items = document.querySelectorAll('li'),
-        length = items.length * width;
+        length = items.length * width; // ширина контента
+        itemsLenght = items.length; // количество элементов  в карусели всего
     next.addEventListener('click', moveForward);
     prev.addEventListener('click', moveBackward);
+
     images.style.transition = `transform 0.8s`;
-    let position = 0;
+
+    let position = 0, // позиция элемента в px
+        index = 0; // позиция элемента с 0 до (количество элементов всего - количество элементов на странице)
     function moveForward() {
+        index = index + elem;
         position -= width * elem;
+
         if(Math.abs(position) >= (length - count * width)){
            position = -(length - count * width);
         }
+
+        if (index > itemsLenght - count) {
+            index = 0;
+            position = 0;
+        } 
+
         images.style.transform = `translateX(${position}px)`;
     }
+
     function moveBackward() {
+        index = index - elem;
         position += width * elem;
+
         if(position > 0){
             position = 0;
         }
-        images.style.transform = `translateX(${position}px)`;
 
+        if (index < 0) {
+            index = itemsLenght - count;
+            position = -(length -  count * width);
+        } 
+        images.style.transform = `translateX(${position}px)`;
     }
 </script>
 </body>

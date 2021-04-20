@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home Work</title>
+	<style type="text/css">
+		li{
+			list-style: none;
+			border: 1px solid black;
+			background-color: black;
+			padding: 10px;
+			height: 25px;
+			width: 120px;
+			opacity: 0.5;
+			margin: 0 auto;
+		}
+		a{
+			text-decoration: none;
+			color: #ffffff;
+		}
+		ul#menu{
+			display: flex;
+			position: absolute;
+			top: -200px;
+		}
+		ul#menuTwo{
+			position: absolute;
+			top: -200px;
+			left: 40px;
+			padding-inline-start: 0;
+			padding: 0;
+		}
+		.toDown{
+			transform: translateY(240px);
+		}
+		.toDown2{
+			transform: translateY(247px);
+		}
+	</style>
+</head>
+<body>
+	<button id="button">Click</button>
+<ul id="menu">
+	<li><a href="#" id="buttonMenu2">Пункт меню 1</a>
+		<ul id="menuTwo">
+			<li><a href="#">Пункт меню 1.1</a></li>
+			<li><a href="#">Пункт меню 1.2</a></li>
+		</ul>
+	</li>
+	<li><a href="#">Пункт меню 2</a></li>
+	<li><a href="#">Пункт меню 3</a></li>
+</ul>
+<script type="text/javascript">
+	let button = document.getElementById('button'),
+		menu = document.getElementById('menu'),
+		menu2 = document.getElementById('menuTwo'),
+		button2 = document.getElementById('buttonMenu2');
+
+	button.addEventListener('click', moveMenu);
+	function moveMenu(){
+		menu.style.transition = 'transform, 1s';
+		menu.classList.toggle('toDown');
+	}
+
+	button2.addEventListener('click', moveMenu2);
+	function moveMenu2(){
+		menu2.classList.toggle('toDown2');
+		menu2.style.transition = 'transform, 1s';
+	}
+
+	// function moveMenu(menuItem, itemClass){
+	// 	menuItem.style.transition = 'transform, 1s';
+	// 	menuItem.classList.toggle('itemClass');
+	// }
+	// button.addEventListener('click', moveMenu(menu, `${toDown}`)); не работает:( 
+	// button2.addEventListener('click', moveMenu(menu2, toDown2)); не работает:( 
+</script>
+</body>
+</html>
