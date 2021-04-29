@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        button, input{
+            display: block;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+<button>Button</button>
+<input type="text" id="input"/>
+<button class="Red" onclick="changeBodyBg('red');">Red</button>
+<button class="Yellow" onclick="changeBodyBg('yellow');">Yellow</button>
+<button class="Green" onclick="changeBodyBg('green');">Green</button>
+<button class="Purple" onclick="changeBodyBg('purple');">Purple</button>
+<script type="text/javascript">
+    let button = document.querySelector('button');
+    button.addEventListener('click',function () {
+        this.style.color = this.style.color === 'black' ? 'red' : 'black';
+    });
+    function changeBodyBg(color){
+        document.getElementById('input').style.background = color;
+    }
+</script>
+</body>
+</html>
