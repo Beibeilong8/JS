@@ -1,0 +1,27 @@
+*{
+    box-sizing: border-box;
+    font-size: 20px;
+}
+table.calc-input th:hover{
+    cursor: pointer;
+}
+.calc-wrapper{
+    margin: 50px;
+    background-color: black;
+    color: white;
+    display: inline-block;
+}
+.calc-output{
+    height: 150px;
+    font-size: 25px;
+    padding: 10px;
+    text-align: right;
+    bottom: 0;
+}
+table.calc-input th{
+    height: 60px;
+    width: 60px;
+}
+.calc-operators{
+    color: coral;
+}
