@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Posts</title>
+</head>
+<style>
+	body {
+		font-family: 'arial';
+	}
+	.form-container {
+		background-color: #ededed;
+		padding: 15px;
+		width: 450px;
+		margin: 0 auto;
+	}
+	.form-control {
+		margin: 10px 0;
+		font-size: 16px;
+		color: #202026;
+		font-weight: 600;
+		display: flex;
+		flex-direction: column;		
+	}
+	.container{
+		background-color: #e0e0e0;
+		max-width: 920px;
+		margin: 15px auto;
+		border-radius: 4px;
+	}
+	.post-container{
+		padding: 25px 15px;
+		text-align: left;
+	}
+	.post-container:nth-child(even){
+		background-color: #ededed;
+	}
+</style>
+<body>
+<div class="form-container">
+	<h2 class="form-title">Create Post</h2>
+	<form class='post-form'>
+		<div class="form-control">
+			<label for="title">Title</label>
+			<input name='title' id="title" type="text" />
+		</div>
+		<div class="form-control">
+			<label for="body">Post body</label>
+			<textarea
+				rows="5"
+				name='body'
+				id="body"
+				type="text"
+			></textarea>
+
+		</div>
+		<input class='form-submit' type="submit" value='Create Post' />
+	</form>
+</div>
+<div class="container">
+ 
+</div>
+<script src="index1.js"></script>
+</body>
+</html>
