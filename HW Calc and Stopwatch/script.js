@@ -4,17 +4,17 @@ let calcNumbers = document.querySelectorAll('.calc-numbers'),
     number,
     textOutput = '',
     result = 0;
-calcNumbers.forEach((item,index,array) =>{
+calcNumbers.forEach((item) =>{
     let addText = () => {
         number = +item.id;
-        if (number === 'comma'){number = ',';}
+        if (number === 'comma'){number = ','}
         textOutput = textOutput + number;
         calcOutput.innerHTML = `${textOutput}`;
         result = result + number;
     };
     item.addEventListener('click', addText);
 });
-calcOperators.forEach((item,index,array) =>{
+calcOperators.forEach((item) =>{
     let addText = () => {
         number = item.id;
         if (number === 'delete' || number === 'c'){
@@ -25,7 +25,7 @@ calcOperators.forEach((item,index,array) =>{
         textOutput = textOutput + number;
         calcOutput.innerHTML = `${textOutput}`;
         result = result + number;
-        if (number === '='){calcOutput.innerHTML = `${result}`};
+        // if (number === '='){calcOutput.innerHTML = `${result}`}
     };
     item.addEventListener('click', addText);
 
