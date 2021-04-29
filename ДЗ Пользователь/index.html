@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script type="text/javascript">
+       let userName=prompt('Назовите ваше имя');
+       alert(`Ваше имя ${userName}`);
+       function showResultNumber() {
+           let number = prompt(`Введите число`);
+           let resultNumberUser = prompt(`Введите квадрат числа ${number}`);
+           if (number * number == resultNumberUser) {
+               return alert(`Верно, ${number}\^2=${resultNumberUser}`);
+           }
+           else {
+               resultNumberUser = prompt(`Попробуйте еще раз`);
+               if (number * number == resultNumberUser) {
+                   return alert(`Верно, ${number}\^2=${resultNumberUser}`);
+               }
+               else {
+                   return alert("К сожалению, неправильно");
+               }
+           }
+       }
+       showResultNumber()
+    </script>
+</body>
+</html>

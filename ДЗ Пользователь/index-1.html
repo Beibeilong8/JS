@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script type="text/javascript">
+      let userName=prompt('Назовите ваше имя');
+      alert(`Hi, ${userName}!`);
+      let number = prompt(`Введите число:`);
+      let resultNumberUser = prompt(`Введите квадрат числа ${number}:`);
+      while (resultNumberUser != number*number){
+        resultNumberUser = prompt(`O ноу, ${userName}, нам нужен квадрат числа ${number}!`);
+      };
+      alert(`Готово. Вы восхитительны!`);
+    </script>
+</body>
+</html>
