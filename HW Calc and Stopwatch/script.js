@@ -1,35 +1,30 @@
-let calcOutput = document.querySelector('.calc-output'),
-    thAll = document.querySelectorAll('th'),
-    number = 0,
+const calcOutput = document.querySelector('.calc-output'),
+    itemsAll = document.querySelectorAll('th');
+let number = 0,
     textOutput = '',
     result = 0,
     operator = '',
-    allItems = ['0'],
+    allItems = [],
     textOutputArray,
-    comma = false,
-    min,
-    operatorOne;
-thAll.forEach((item) =>{
+    indexOfOperator,
+    indexOfOperatorArr = [],
+    indexOfEqual,
+    operatorOne,
+    numberOne,
+    numberTwo;
+itemsAll.forEach((item) =>{
     let addText = function(){
         let className = item.className;
-        let numberOne;
-        let numberTwo;
 
         // For numbers 0-9 + ','
+        if(textOutput === 'Разделить на 0 нельзя') {clearingCalc();}
+        if(textOutput === '0'){textOutput = ''} // for situations such as "056"
+
         if(className === 'calc-numbers'){
             number = this.dataset.id;
-            if (number === 'comma'){
-            	number = '.';
-            	if (textOutput === ''){
-            		comma=true;
-            		textOutput = "0" + number;
-            	}
-        		else{textOutput = textOutput + number;}
-            }
-            else{
-            	textOutput = textOutput + number;}
+            (number === 'comma') ? getComma() : textOutput = textOutput + number;
             allItems.push(number);
-            calcOutput.innerHTML = `${textOutput}`;
+            returnText();
         }
 
         // For operators (!%)
@@ -45,25 +40,20 @@ thAll.forEach((item) =>{
             }
 
             if(operator === 'delete'){
-                deleteCalc();
+                backspaceCalc();
                 return
             }
 
             allItems.push(operator);
 
             if (operator === '='){
+                // allItems.push(operator);
 
-                if(comma){
-                    numberOne = Number(textOutput.substring(0,min)); // min = index of operator
-                    max= allItems.indexOf(operator,min); // max = index of operator '='
-                    numberTwo = Number(textOutput.substring(min,max));
-                } else{
-                    numberOne = Number(textOutput.substring(0,(min-1)));
-                    max = allItems.indexOf(operator,min);
-                    numberTwo = Number(textOutput.substring(min,max-1));
-                }
+                calcIndexOfEqual();
+                calcNumbers();
+                if (numberTwo === undefined){return}
 
-				switch(operatorOne) {
+                switch(operatorOne) {
                     case '/': result = numberOne / numberTwo; break;
                     case '*': result = numberOne * numberTwo; break;
                     case '-': result = numberOne - numberTwo; break;
@@ -73,88 +63,63 @@ thAll.forEach((item) =>{
                 result = +result.toFixed(2);
                 allItems = [result];
                 textOutput = result;
-            } else{
-            	cointerNumber();
-            	operatorOne = operator;
-                textOutput = textOutput + operator;
-            }
-            // add text of HTM
-            calcOutput.innerHTML = `${textOutput}`;
+                numberOne = result;
+                operatorOne = 0;
+                checkInfinity();
+
+            } else{checkOperator();}
+
+            // add text of HTML
+            returnText();
         }
-
     };
-
     item.addEventListener('click', addText);
 });
-let clearingCalc = function(){
-	calcOutput.innerHTML = '';
-    textOutput = '';
+const returnText = function(){calcOutput.innerHTML = `${textOutput}`;};
+const getComma = function(){
+	number = '.';
+    if (textOutput === ''){
+       textOutput = "0" + number;
+       allItems.push('0');
+    }
+    else{textOutput = textOutput + number;}
+};
+const clearingCalc = function(){
+    textOutput = '0';
+    returnText();
     result = 0;
     allItems = [''];
+    numberOne = 0;
+    numberTwo = 0;
+    indexOfOperatorArr = [];
+    operatorOne = 0;
 };
-let deleteCalc = function(){
+const backspaceCalc = function(){
 	if(textOutput.split === undefined){return} // fix error when delete result
 	textOutputArray = textOutput.split('');
 	textOutputArray.pop(); // delete item from the end
-	textOutput = textOutputArray.join('');
-	calcOutput.innerHTML = `${textOutput.substring(0, textOutput.length)}`;
+    allItems.pop();
+    textOutput = textOutputArray.join('');
+    console.log(textOutput);
+    returnText();
 };
-let cointerNumber = function(){
-     min = allItems.indexOf(operator,0);
+const calcIndexOfOperator = function(){indexOfOperator = allItems.indexOf(operator,0);};
+const calcIndexOfEqual = function(){indexOfEqual = allItems.indexOf(operator,indexOfOperator);};
+const calcNumbers = function(){
+    let numberOneArray = allItems.slice(0,indexOfOperator);
+    numberOne = Number(numberOneArray.join(''));
+
+    let numberTwoArray = allItems.slice(indexOfOperator+1,indexOfEqual);
+    numberTwo = Number(numberTwoArray.join(''));
 };
-
-
-
-// calcNumbers.forEach((item) =>{
-//     let addText = () => {
-//         number = item.id;
-//         if (number === 'comma'){number = ','}
-//         textOutput = textOutput + number;
-//         calcOutput.innerHTML = `${textOutput}`;
-//         let numberOne = 0;
-//         numberOne = numberOne + number;
-//         console.log(numberOne);
-//     };
-//     item.addEventListener('click', addText);
-// });
-// calcOperators.forEach((item) =>{
-//     let addText = () => {
-//         operator = item.id;
-//         if (operator === '='){
-//             switch(operator){
-//                 case 'c':
-//                     calcOutput.innerHTML = '';
-//                     textOutput = '';
-//                     result = 0;
-//                     break;
-//                 case 'delete':
-//                     calcOutput.innerHTML = `${textOutput.substring(0,textOutput.length-1)}`;
-//                     break;
-//                 case '/': result = numberOne/numberTwo; break;
-//                 case 'x': result = numberOne*numberTwo; break;
-//                 case '-': result = numberOne - numberTwo; break;
-//                 case '+': result = numberOne + numberTwo; break;
-//                 default: result = 0;
-//             }
-//         }
-//         textOutput = textOutput + operator;
-//         calcOutput.innerHTML = `${textOutput}`;
-//         result = result + operator;
-//         // if (number === '='){calcOutput.innerHTML = `${result}`}
-//     };
-//     item.addEventListener('click', addText);
-//
-// });
-
-// switch(operator){
-//     case '/': result = numberOne/numberTwo; break;
-//     case 'x': result = numberOne*numberTwo; break;
-//     case '-': result = numberOne - numberTwo; break;
-//     case '+': result = numberOne + numberTwo; break;
-// }
-// console.log(result);
-// let calcNumbersArray = [],
-//     calcOperatorsArray = [];
-// calcNumbersArray.concat(calcNumbers);
-// calcOperatorsArray.concat(calcOperators);
-// calcNumbersArray.every(console.log);
+const checkInfinity = function(){
+    if (result === Infinity || result === -Infinity){textOutput = 'Разделить на 0 нельзя';}
+};
+const checkOperator = function(){
+    if (operatorOne !== undefined && operatorOne !== 0){allItems.pop();
+    } else{
+        calcIndexOfOperator();
+        operatorOne = operator;
+        textOutput = textOutput + operator;
+    }
+};
