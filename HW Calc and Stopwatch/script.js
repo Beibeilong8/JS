@@ -99,11 +99,14 @@ const backspaceCalc = function(){
 	textOutputArray = textOutput.split('');
 	textOutputArray.pop(); // delete item from the end
     allItems.pop();
+    if (allItems.length <= indexOfOperator){operatorOne = 0;}
     textOutput = textOutputArray.join('');
-    console.log(textOutput);
     returnText();
 };
-const calcIndexOfOperator = function(){indexOfOperator = allItems.indexOf(operator,0);};
+const calcIndexOfOperator = function(){
+    indexOfOperator = allItems.indexOf(operator,0);
+    console.log(indexOfOperator)
+};
 const calcIndexOfEqual = function(){indexOfEqual = allItems.indexOf(operator,indexOfOperator);};
 const calcNumbers = function(){
     let numberOneArray = allItems.slice(0,indexOfOperator);
@@ -116,7 +119,8 @@ const checkInfinity = function(){
     if (result === Infinity || result === -Infinity){textOutput = 'Разделить на 0 нельзя';}
 };
 const checkOperator = function(){
-    if (operatorOne !== undefined && operatorOne !== 0){allItems.pop();
+    if (operatorOne !== undefined && operatorOne !== 0){
+        allItems.pop();
     } else{
         calcIndexOfOperator();
         operatorOne = operator;
