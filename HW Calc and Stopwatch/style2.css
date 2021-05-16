@@ -1,0 +1,87 @@
+*{
+    box-sizing: border-box;
+    font-size: 20px;
+}
+body{
+    display: flex;
+}
+/* ------------------------------Calc-------------------------------*/
+table.calc-input th:hover{
+    cursor: pointer;
+}
+.calc-wrapper{
+    margin: 50px;
+    background-color: black;
+    color: white;
+    display: inline-block;
+    height: 470px;
+}
+.calc-output{
+    height: 150px;
+    font-size: 25px;
+    padding: 10px;
+    text-align: right;
+    bottom: 0;
+}
+table.calc-input th{
+    height: 60px;
+    width: 60px;
+}
+.calc-operators{
+    color: coral;
+}
+/* ------------------------------StopWatch--------------------------*/
+.stopwatch{
+     margin-top: 50px;
+ }
+.time-output{
+    background-color: black;
+    width: 300px;
+    height: 80px;
+    color: coral;
+    padding: 18px 80px;
+    font-size: 40px;
+}
+.time-buttons{
+    display:flex;
+    width: 300px;
+    justify-content: center;
+}
+.time-buttons>div{
+    margin: 10px;
+    border: 1px solid black;
+    border-radius: 6px;
+    padding: 10px 20px;
+}
+.time-buttons>.Start{
+    background-color: darkseagreen !important;
+    color: white;
+}
+.time-buttons>.Stop{
+    background-color: lightcoral;
+    color: white;
+}
+.time-buttons>div:hover{
+    cursor:pointer;
+}
+.circles{
+    width: 300px;
+}
+.contentCircle{
+    width: 100%;
+    border-top: 2px solid black;
+    height: 30px;
+}
+.contentCircle:nth-child(2n){
+    background-color: bisque;
+}
+.contentCircle>td{
+    border: 0;
+    text-align: center;
+}
+.circle-title{
+    font-weight: bolder;
+    font-size: larger;
+    text-align: center;
+padding: 0 10px;
+}
