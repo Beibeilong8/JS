@@ -136,8 +136,8 @@ const timeOutput = document.querySelector('.time-output');
 const timeButtons = document.querySelectorAll('.button');
 const buttonFirst = document.querySelector('.first');
 const buttonSecond = document.querySelector('.second');
-const circlesContainer = document.querySelector('.circles');
-const circleHead = document.querySelector(`.title`);
+const circleBody = document.querySelector(`.circleStrings`);
+
 let milliSeconds = '0';
 let seconds = '0';
 let minutes = '0';
@@ -208,53 +208,50 @@ let toButtonToggle = function(classRemoveFirstButton, classAddFirstButton, class
 //     buttonSecond.classList.toggle(classAddSecondButton);
 //     buttonSecond.innerHTML = `${classAddSecondButton}`;
 // };
-
-const toClickReset = function(){
-    clearTimeout(timer);
-    milliSeconds = '0';
-    seconds = '0';
-    minutes = '0';
-    returnTime();
-    circlesContainer.innerHTML = '';
-    // circleTitle.innerHTML = ``;
-    // circleHead.innerHTML = ``;
-    // console.log(circleTitle);
-    circlePreviousTime = new Date(0, 0, 0, 0, 0, 0, 0);
-    counterCircle = 1;
-    title = false;
-};
 let createPostElement = (tag, className) => {
     const elem = document.createElement(tag);
     elem.classList.add(className);
     return elem;
 };
 const circleTitle = createPostElement('tr', 'circle-title');
+const toClickReset = function(){
+    clearTimeout(timer);
+    milliSeconds = '0';
+    seconds = '0';
+    minutes = '0';
+    returnTime();
+    circleTitle.innerHTML = ``;
+    circleBody.innerHTML = ``;
+    circlePreviousTime = new Date(0, 0, 0, 0, 0, 0, 0);
+    counterCircle = 1;
+    title = false;
+};
 
 let createCircle = function(){
     const circleNumberTitle = createPostElement('td', 'circle-number');
     const lapTimeTitle = createPostElement('td', 'lapTime');
     const allTimeTitle = createPostElement('td', 'allTime');
-
     const contentCircle = createPostElement('tr', 'contentCircle');
     const circleNumber = createPostElement('td', 'circle-number');
     const lapTime = createPostElement('td', 'lapTime');
     const allTime = createPostElement('td', 'allTime');
+    const circleHead = document.querySelector(`.title`);
+
     let circleTimeAll = new Date(0, 0, 0, 0, minutes, seconds, milliSeconds*10);
     let circleTimeOutput;
 
     // ------------------- Create title for circle table -----------------------------------
-    // console.log(circleHead)
     if(title === false)  {
-          circleNumberTitle.innerHTML = `Circle`;
-          lapTimeTitle.innerHTML = `Lap Time`;
-          allTimeTitle.innerHTML = `Общее время`;
+      circleNumberTitle.innerHTML = `Circle`;
+      lapTimeTitle.innerHTML = `Lap Time`;
+      allTimeTitle.innerHTML = `Total Time`;
 
-          circleTitle.append(circleNumberTitle);
-          circleTitle.append(lapTimeTitle);
-          circleTitle.append(allTimeTitle);
-          circleHead.append(circleTitle);
-          console.log(circleHead);
-          title = true;
+      circleTitle.append(circleNumberTitle);
+      circleTitle.append(lapTimeTitle);
+      circleTitle.append(allTimeTitle);
+      circleHead.append(circleTitle);
+      
+      title = true;
     }
 
     // ------------------- Create string of circle table -----------------------------------
@@ -263,6 +260,7 @@ let createCircle = function(){
     counterCircle++;
 
     circleTime = new Date(circleTimeAll.getTime() - circlePreviousTime.getTime());
+    circlePreviousTime = new Date(circlePreviousTime.getTime() + circleTime.getTime());
 
     circleMinutes = circleTime.getMinutes();
     circleSecond = circleTime.getSeconds();
@@ -270,25 +268,23 @@ let createCircle = function(){
 
     let circleMinutesReturn = returnTimeWithTwoSymbols(circleMinutes);
     let circleSecondReturn = returnTimeWithTwoSymbols(circleSecond);
-    let circleMilliSecondsReturn;
+    
+    // ------------ MillisecondReturn calc so, because milliseconds get 3 symbols ----------
 
+    let circleMilliSecondsReturn;
     (circleMilliSeconds === 1000) ? circleMilliSecondsReturn = `99`
         : (circleMilliSeconds === 0) ? circleMilliSecondsReturn = `00`
         : (circleMilliSeconds <= 99) ? circleMilliSecondsReturn = `0${Math.trunc(circleMilliSeconds/10)}`
         : circleMilliSecondsReturn = `${Math.trunc(circleMilliSeconds/10)}`;
 
     circleTimeOutput = `${circleMinutesReturn}:${circleSecondReturn}:${circleMilliSecondsReturn}`;
-
-    circlePreviousTime = circlePreviousTime.getTime() + circleTime.getTime();
-    circlePreviousTime = new Date(circlePreviousTime);
-
     lapTime.innerHTML = circleTimeOutput;
     allTime.innerHTML = `${timeOutput.innerHTML}`;
 
     contentCircle.append(circleNumber);
     contentCircle.append(lapTime);
     contentCircle.append(allTime);
-    circlesContainer.prepend(contentCircle);
+    circleBody.prepend(contentCircle);
 };
 
 let returnTimeWithTwoSymbols = (item) => {
