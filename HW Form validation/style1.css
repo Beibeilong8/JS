@@ -1,0 +1,23 @@
+form{
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+    background-color: bisque;
+    margin: 50px auto;
+    padding: 15px;
+}
+form>div{
+    padding-bottom: 10px;
+}
+#end{
+    padding-bottom: 0;
+}
+.error{
+    color: red;
+    font-size: 12px;
+    padding-bottom: 0;
+    height: 17px;
+}
+input{
+    padding-bottom: 0;
+}
