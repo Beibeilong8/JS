@@ -34,9 +34,9 @@ itemsAll.forEach((item) =>{
 
             operator = this.dataset.id;
 
-			if(operator === undefined){return} // for %
+            if(operator === undefined){return} // for %
 
-			if(operator === 'c'){
+            if(operator === 'c'){
                 clearingCalc();
                 return;
             }
@@ -49,8 +49,6 @@ itemsAll.forEach((item) =>{
             allItems.push(operator);
 
             if (operator === '='){
-                // allItems.push(operator);
-
                 calcIndexOfEqual();
                 calcNumbers();
                 if (numberTwo === undefined){return}
@@ -77,16 +75,18 @@ itemsAll.forEach((item) =>{
     };
     item.addEventListener('click', addText);
 });
-const returnText = function(){calcOutput.innerHTML = `${textOutput}`;};
-const getComma = function(){
-	number = '.';
+function returnText(){
+    calcOutput.innerHTML = `${textOutput}`;
+}
+function getComma(){
+    number = '.';
     if (textOutput === ''){
-       textOutput = "0" + number;
-       allItems.push('0');
+        textOutput = "0" + number;
+        allItems.push('0');
     }
     else{textOutput = textOutput + number;}
-};
-const clearingCalc = function(){
+}
+function clearingCalc(){
     textOutput = '0';
     returnText();
     result = 0;
@@ -95,32 +95,34 @@ const clearingCalc = function(){
     numberTwo = 0;
     indexOfOperatorArr = [];
     operatorOne = 0;
-};
-const backspaceCalc = function(){
-	if(textOutput.split === undefined){return} // fix error when delete result
-	textOutputArray = textOutput.split('');
-	textOutputArray.pop(); // delete item from the end
+}
+function backspaceCalc(){
+    if(textOutput.split === undefined){return} // fix error when delete result
+    textOutputArray = textOutput.split('');
+    textOutputArray.pop(); // delete item from the end
     allItems.pop();
     if (allItems.length <= indexOfOperator){operatorOne = 0;}
     textOutput = textOutputArray.join('');
     returnText();
-};
-const calcIndexOfOperator = function(){
+}
+function calcIndexOfOperator(){
     indexOfOperator = allItems.indexOf(operator,0);
     console.log(indexOfOperator)
-};
-const calcIndexOfEqual = function(){indexOfEqual = allItems.indexOf(operator,indexOfOperator);};
-const calcNumbers = function(){
+}
+function calcIndexOfEqual(){
+    indexOfEqual = allItems.indexOf(operator,indexOfOperator);
+}
+function calcNumbers(){
     let numberOneArray = allItems.slice(0,indexOfOperator);
     numberOne = Number(numberOneArray.join(''));
 
     let numberTwoArray = allItems.slice(indexOfOperator+1,indexOfEqual);
     numberTwo = Number(numberTwoArray.join(''));
-};
-const checkInfinity = function(){
+}
+function checkInfinity(){
     if (result === Infinity || result === -Infinity){textOutput = 'Разделить на 0 нельзя';}
-};
-const checkOperator = function(){
+}
+function checkOperator(){
     if (operatorOne !== undefined && operatorOne !== 0){
         allItems.pop();
     } else{
@@ -128,7 +130,7 @@ const checkOperator = function(){
         operatorOne = operator;
         textOutput = textOutput + operator;
     }
-};
+}
 
 //-----------------------------Stopwatch----------------------------------------------------------------
 
@@ -136,8 +138,10 @@ const timeOutput = document.querySelector('.time-output');
 const timeButtons = document.querySelectorAll('.button');
 const buttonFirst = document.querySelector('.first');
 const buttonSecond = document.querySelector('.second');
-const circlesContainer = document.querySelector('.circles');
-const circleHead = document.querySelector(`.title`);
+const circleBody = document.querySelector(`.circleStrings`);
+const millisecondsInSecond = 100;
+const secondsInMinute = 60;
+
 let milliSeconds = '0';
 let seconds = '0';
 let minutes = '0';
@@ -151,18 +155,16 @@ let circleTime = new Date(0, 0, 0, 0, 0, 0, 0);
 let title = false;
 
 timeButtons.forEach((item) =>{
-    let addTime = function(){
+    const addTime = function(){
         let className = item.className;
         switch (className){
             case 'button first Start':
                 timer = setInterval(timeCounter, 10);
                 toButtonToggle('Start', 'Stop',`Reset`, `Circle`);
-                // toButtonToggle('Stop',`Circle`);
                 break;
             case 'button first Stop' :
                 clearTimeout(timer);
                 toButtonToggle('Stop', 'Start',`Circle`, `Reset`);
-                // toButtonToggle('Start', `Reset`);
                 break;
             case 'button second Reset':
                 toClickReset();
@@ -173,25 +175,25 @@ timeButtons.forEach((item) =>{
     };
     item.addEventListener('click', addTime);
 });
-let returnTime = function(){
+function returnTime(){
     let milliSecondsReturn = returnTimeWithTwoSymbols(milliSeconds);
     let secondsReturn = returnTimeWithTwoSymbols(seconds);
     let minutesReturn = returnTimeWithTwoSymbols(minutes);
     timeOutput.innerHTML = `${minutesReturn}:${secondsReturn}:${milliSecondsReturn}`;
-};
-let timeCounter = function(){
+}
+function timeCounter(){
     milliSeconds++;
-    if (milliSeconds===100) {
+    if (milliSeconds===millisecondsInSecond) {
         seconds++;
         milliSeconds = `0`;
     }
-    if (seconds===60) {
+    if (seconds===secondsInMinute) {
         minutes++;
         seconds = `0`;
     }
     returnTime();
-};
-let toButtonToggle = function(classRemoveFirstButton, classAddFirstButton, classRemoveSecondButton,classAddSecondButton){
+}
+const toButtonToggle = (classRemoveFirstButton, classAddFirstButton, classRemoveSecondButton,classAddSecondButton) => {
     buttonFirst.classList.remove(classRemoveFirstButton);
     buttonFirst.classList.add(classAddFirstButton);
     buttonFirst.innerHTML = `${classAddFirstButton}`;
@@ -199,62 +201,49 @@ let toButtonToggle = function(classRemoveFirstButton, classAddFirstButton, class
     buttonSecond.classList.add(classAddSecondButton);
     buttonSecond.innerHTML = `${classAddSecondButton}`;
 };
-
-// Попытка сократить код, неудачная
-// let toButtonToggle = function(classAddFirstButton, classAddSecondButton){
-//     buttonFirst.classList.toggle(classAddFirstButton);
-//     buttonFirst.innerHTML = `${classAddFirstButton}`;
-//
-//     buttonSecond.classList.toggle(classAddSecondButton);
-//     buttonSecond.innerHTML = `${classAddSecondButton}`;
-// };
-
-const toClickReset = function(){
-    clearTimeout(timer);
-    milliSeconds = '0';
-    seconds = '0';
-    minutes = '0';
-    returnTime();
-    circlesContainer.innerHTML = '';
-    // circleTitle.innerHTML = ``;
-    // circleHead.innerHTML = ``;
-    // console.log(circleTitle);
-    circlePreviousTime = new Date(0, 0, 0, 0, 0, 0, 0);
-    counterCircle = 1;
-    title = false;
-};
-let createPostElement = (tag, className) => {
+const createPostElement = (tag, className) => {
     const elem = document.createElement(tag);
     elem.classList.add(className);
     return elem;
 };
 const circleTitle = createPostElement('tr', 'circle-title');
-
-let createCircle = function(){
+function toClickReset(){
+    clearTimeout(timer);
+    milliSeconds = '0';
+    seconds = '0';
+    minutes = '0';
+    returnTime();
+    circleTitle.innerHTML = ``;
+    circleBody.innerHTML = ``;
+    circlePreviousTime = new Date(0, 0, 0, 0, 0, 0, 0);
+    counterCircle = 1;
+    title = false;
+}
+function createCircle(){
     const circleNumberTitle = createPostElement('td', 'circle-number');
     const lapTimeTitle = createPostElement('td', 'lapTime');
     const allTimeTitle = createPostElement('td', 'allTime');
-
     const contentCircle = createPostElement('tr', 'contentCircle');
     const circleNumber = createPostElement('td', 'circle-number');
     const lapTime = createPostElement('td', 'lapTime');
     const allTime = createPostElement('td', 'allTime');
+    const circleHead = document.querySelector(`.title`);
+
     let circleTimeAll = new Date(0, 0, 0, 0, minutes, seconds, milliSeconds*10);
     let circleTimeOutput;
 
     // ------------------- Create title for circle table -----------------------------------
-    // console.log(circleHead)
     if(title === false)  {
-          circleNumberTitle.innerHTML = `Circle`;
-          lapTimeTitle.innerHTML = `Lap Time`;
-          allTimeTitle.innerHTML = `Общее время`;
+        circleNumberTitle.innerHTML = `Circle`;
+        lapTimeTitle.innerHTML = `Lap Time`;
+        allTimeTitle.innerHTML = `Total Time`;
 
-          circleTitle.append(circleNumberTitle);
-          circleTitle.append(lapTimeTitle);
-          circleTitle.append(allTimeTitle);
-          circleHead.append(circleTitle);
-          console.log(circleHead);
-          title = true;
+        circleTitle.append(circleNumberTitle);
+        circleTitle.append(lapTimeTitle);
+        circleTitle.append(allTimeTitle);
+        circleHead.append(circleTitle);
+
+        title = true;
     }
 
     // ------------------- Create string of circle table -----------------------------------
@@ -263,6 +252,7 @@ let createCircle = function(){
     counterCircle++;
 
     circleTime = new Date(circleTimeAll.getTime() - circlePreviousTime.getTime());
+    circlePreviousTime = new Date(circlePreviousTime.getTime() + circleTime.getTime());
 
     circleMinutes = circleTime.getMinutes();
     circleSecond = circleTime.getSeconds();
@@ -270,28 +260,25 @@ let createCircle = function(){
 
     let circleMinutesReturn = returnTimeWithTwoSymbols(circleMinutes);
     let circleSecondReturn = returnTimeWithTwoSymbols(circleSecond);
-    let circleMilliSecondsReturn;
 
+    // ------------ MillisecondReturn calc so, because milliseconds get 3 symbols ----------
+
+    let circleMilliSecondsReturn;
     (circleMilliSeconds === 1000) ? circleMilliSecondsReturn = `99`
         : (circleMilliSeconds === 0) ? circleMilliSecondsReturn = `00`
         : (circleMilliSeconds <= 99) ? circleMilliSecondsReturn = `0${Math.trunc(circleMilliSeconds/10)}`
-        : circleMilliSecondsReturn = `${Math.trunc(circleMilliSeconds/10)}`;
+            : circleMilliSecondsReturn = `${Math.trunc(circleMilliSeconds/10)}`;
 
     circleTimeOutput = `${circleMinutesReturn}:${circleSecondReturn}:${circleMilliSecondsReturn}`;
-
-    circlePreviousTime = circlePreviousTime.getTime() + circleTime.getTime();
-    circlePreviousTime = new Date(circlePreviousTime);
-
     lapTime.innerHTML = circleTimeOutput;
     allTime.innerHTML = `${timeOutput.innerHTML}`;
 
     contentCircle.append(circleNumber);
     contentCircle.append(lapTime);
     contentCircle.append(allTime);
-    circlesContainer.prepend(contentCircle);
-};
-
-let returnTimeWithTwoSymbols = (item) => {
+    circleBody.prepend(contentCircle);
+}
+const returnTimeWithTwoSymbols = (item) => {
     let itemReturn = item;
     if (itemReturn <=9 ) {
         itemReturn = `0${item}`
