@@ -1,0 +1,24 @@
+table{
+    /*border-spacing: 10px;*/
+    /*border-collapse: collapse;*/
+}
+.cells{
+    border: 1px solid grey;
+    height: 30px;
+    width: 100px;
+    padding: 0;
+    /*mso-border-shadow: yes;*/
+}
+input{
+    /*border: 0;*/
+    height: 100%;
+    width: 100%;
+}
+.bolder{
+    border-width: 2px;
+    height: 28px !important;
+    width: 98px !important;
+}
+.yellow{
+    background-color: yellow;
+}
