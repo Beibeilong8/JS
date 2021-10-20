@@ -1,4 +1,4 @@
-let myForm = document.forms[0];
+const myForm = document.forms[0];
 const file = myForm.elements.file;
 const errorFile = document.getElementById('errorFile');
 const fileCheckPattern = /image/;
@@ -17,19 +17,15 @@ function checkFile() {
     if(!checkType(fileType) && !checkSize(fileSize)){
         addText(errorFile, 'Файл не должен быть больше 1Мб и должен быть только картинкой');
         fileTrue = false;
-        return false;
     } else if (!checkType(fileType)) {
         addText(errorFile, 'Файл должен быть только картинкой');
         fileTrue = false;
-        return false;
     } else if(!checkSize(fileSize)) {
         addText(errorFile, 'Файл не должен быть больше 1Мб');
         fileTrue = false;
-        return false;
     } else{
         errorFile.innerHTML = '';
         fileTrue = true;
-        return true;
     }
 }
 function addText(elem, text){
@@ -47,61 +43,27 @@ function checkSize(fileSize){
 }
 //---------------------------------------------Checkbox--------------------------------------
 checkboxArray.forEach((item) => {
-    function checkCheckbox(){
+    item.addEventListener('change', (event) => checkCheckbox(item));
+});
+function checkCheckbox(item){
         (item.checked) ? checkedCheckbox ++ : checkedCheckbox --;
         if (checkedCheckbox === 0){
-            // errorCheck.innerHTML = 'Должен быть выбран хотя бы один пункт';
             addText(errorCheck, 'Должен быть выбран хотя бы один пункт');
-            return false;
         } else{
             errorCheck.innerHTML = '';
-            return true;
         }
-    }
-    item.addEventListener('change', checkCheckbox);
-});
-// myForm.addEventListener('submit', function () {
-//     if(!fileTrue){
-//         event.preventDefault();
-//         (errorFile.innerHTML === '') ? errorFile.innerHTML = 'Должен быть выбран файл' : '';
-//     }
-//     if(!checkTrue){
-//         event.preventDefault();
-//         (errorCheck.innerHTML === '') ? errorCheck.innerHTML = 'Должен быть выбран хотя бы один пункт' : '';
-//     }
-//     myForm.submit;
-// });
-myForm.addEventListener('submit', checkForm);
+}
+myForm.addEventListener('submit', (event) => checkForm(myForm), false);
 function checkForm(myForm){
-
-// myForm.onsubmit = function(){
-
-    console.log(fileTrue);
-    console.log(checkedCheckbox);
-    if((fileTrue === true)&&(checkedCheckbox !== 0)){
-        // myForm.onsubmit();
-        console.log('true');
-        return;
-
-    }
     if(fileTrue === false){
         if (errorFile.innerHTML === '') {
             addText(errorFile, 'Должен быть выбран файл');
         }
-        myForm.preventDefault();
-
+        event.preventDefault();
     } else if(checkedCheckbox === 0){
-        // event.preventDefault();
         if(errorCheck.innerHTML === '') {
             addText(errorCheck, 'Должен быть выбран хотя бы один пункт');
         }
-        myForm.preventDefault();
-        // event.preventDefault();
-        // return false
-    }
-
-    // return false
-    // console.log(event.preventDefault())
-    // if (!(!checkFile || !(checkedCheckbox === 0))) return;
-
+        event.preventDefault();
+    } 
 }
